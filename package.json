@@ -1,11 +1,12 @@
 {
-  "name": "kmk-landing",
+  "name": "ready-gulp-webpack",
   "version": "1.0.0",
   "main": "gulpfile.js",
   "dependencies": {
     "autoprefixer": "^10.2.5",
     "gulp-sourcemaps": "^3.0.0",
-    "jshint": "^2.12.0"
+    "jshint": "^2.12.0",
+    "tslint": "^6.1.3"
   },
   "devDependencies": {
     "browser-sync": "^2.26.14",
@@ -21,10 +22,14 @@
     "gulp-uglify": "^3.0.2",
     "gulp-webp": "^4.0.1",
     "node-sass": "^5.0.0",
-    "postcss": "^8.2.8"
+    "postcss": "^8.2.8",
+    "ts-loader": "^8.0.18",
+    "typescript": "^4.2.3",
+    "webpack": "^5.24.2",
+    "webpack-cli": "^4.5.0"
   },
   "scripts": {
-    "start": "gulp",
+    "start": "gulp | webpack | gulp jsmin",
     "images": "gulp images"
   },
   "repository": {
@@ -38,5 +43,5 @@
     "url": "https://github.com/memoryx3/kmk-landing/issues"
   },
   "homepage": "https://github.com/memoryx3/kmk-landing#readme",
-  "description": ""
+  "description": "ReadyGulp is tuned gulp for easy start of HTML/CSS(Sass)/JS development"
 }
