@@ -25,11 +25,10 @@
     "postcss": "^8.2.8",
     "ts-loader": "^8.0.18",
     "typescript": "^4.2.3",
-    "webpack": "^5.24.2",
-    "webpack-cli": "^4.5.0"
+    "webpack-stream": "^6.1.2"
   },
   "scripts": {
-    "start": "gulp | webpack | gulp jsmin",
+    "start": "gulp",
     "images": "gulp images"
   },
   "repository": {
