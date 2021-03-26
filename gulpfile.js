@@ -1,3 +1,4 @@
+const path = require('path');
 const gulp = require('gulp');
 const { series } = require('gulp');
 
@@ -13,8 +14,12 @@ const rename = require("gulp-rename");
 const imagemin = require('gulp-imagemin');
 const webp = require('gulp-webp');
 
-const uglify = require('gulp-uglify');
+const wp = require('webpack-stream');
 
+const entryPoints = {};
+entryPoints['main'] = path.resolve(__dirname, 'src/scripts', 'main.ts');
+
+const uglify = require('gulp-uglify');
 
 const sync = require('browser-sync').create();
 
@@ -62,6 +67,31 @@ const towebp = () => {
     .pipe(gulp.dest('dist/img'))
 }
 
+exports.webpack = webpack = () => {
+  return gulp.src('src/scripts/*.ts')
+    .pipe(wp({
+      mode: 'production',
+      entry: entryPoints,
+      output: {
+        filename: '[name].js'
+      },
+      resolve: {
+        extensions: ['.ts']
+      },
+      module: {
+        rules: [
+          { test: /\.ts$/, loader: 'ts-loader' }
+        ]
+      },
+      optimization: {
+        minimize: true,
+        nodeEnv: 'production'
+      },
+      watch: false
+    }))
+    .pipe(gulp.dest('src/scripts'));
+}
+
 exports.jsmin = jsmin = () => {
   return gulp.src('src/**/*.js', { read: true })
     .pipe(clean())
@@ -86,7 +116,7 @@ exports.html = html = () => {
 const browsersync = (start) => {
   sync.init({
     server: {
-      baseDir: 'src'
+      baseDir: 'dist'
     },
     cors: true,
     notify: false,
@@ -98,9 +128,10 @@ const browsersync = (start) => {
 const watcher = () => {
   gulp.watch('src/**/*.html', gulp.series('html'));
   gulp.watch('src/**/*.scss', gulp.series('styles'));
+  gulp.watch('src/**/*.ts', gulp.series('webpack'));
   gulp.watch('src/**/*.js', gulp.series('jsmin'));
 }
 
 exports.images = series(imgmin, movesvg, towebp);
-exports.default = series(styles, jsmin, html, browsersync, watcher);
+exports.default = series(styles, webpack, jsmin, html, browsersync, watcher);
 
