@@ -3,9 +3,9 @@ const path = require('path');
 const entryPoints = {};
 entryPoints['main'] = path.resolve(__dirname, 'src/scripts', 'main.ts');
 
-module.exports = (argv) => {
+module.exports = (env, argv) => {
   const config = {
-    mode: 'production',
+    mode: argv.mode,
     entry: entryPoints, 
     output: {
       path: path.resolve(__dirname, 'src/scripts'),

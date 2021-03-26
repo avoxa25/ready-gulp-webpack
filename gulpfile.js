@@ -65,7 +65,7 @@ const towebp = () => {
 exports.jsmin = jsmin = () => {
   return gulp.src('src/**/*.js', { read: true })
     .pipe(clean())
-    //.pipe(uglify())
+    .pipe(uglify())
     .pipe(rename((p) => {
       p.dirname = '';
       p.basename += ".min";
